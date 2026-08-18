@@ -1,0 +1,198 @@
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class LMSI {
+
+    public static void main(String[] args) throws Exception {
+
+        Scanner input = new Scanner(System.in);
+        int choiceMain;
+        int choiceSearch;
+
+        // Load books
+        List<Book> books = loadBooks("C:/Temp/books.txt");
+
+        while (true) {
+
+            System.out.println("\n Library Management Database.");
+            System.out.println(" __________________________________________________________________________________________________________________");
+
+            System.out.println(" 1: Book Management.");
+            System.out.println(" 2: Member Management.");
+            System.out.println(" 3: Loan Management.");
+            System.out.println(" 4: Search.");
+            System.out.println(" 5: Exit.\n");
+            System.out.print("Enter your choice: ");
+
+            if (!input.hasNextInt()) {
+                System.out.println("Invalid input.");
+                input.next();
+                continue;
+            }
+
+            choiceMain = input.nextInt();
+            input.nextLine();
+
+            switch (choiceMain) {
+
+            case 4:
+
+                System.out.println("\n Search.");
+                System.out.println(" __________________________________________________________________________________________________________________");
+
+                System.out.println(" 1: Find a member.");
+                System.out.println(" 2: Find a book");
+                System.out.println(" 3: Return \n");
+                System.out.print("Enter your choice: ");
+
+                if (!input.hasNextInt()) {
+                    System.out.println("Invalid input.");
+                    input.next();
+                    continue;
+                }
+
+                choiceSearch = input.nextInt();
+                input.nextLine();
+
+                switch (choiceSearch) {
+
+                case 2:
+
+                    System.out.println("\n Enter book ID: ");
+                    String id = input.nextLine();
+
+                    Book found = findBook(books, id);
+
+                    if (found != null) {
+                        ReportBook.printSingleBook(found);
+                    } else {
+                        System.out.println("Book not found.");
+                    }
+                    waitAndClear();
+                    break;
+
+                default:
+                    System.out.println("Search implemented only for books.");
+                    waitAndClear();
+                    break;
+                }
+                break;
+
+            case 5:
+                System.out.println("\n The program is exiting.\n");
+                System.exit(0);
+
+            default:
+                System.out.println("Options other than exiting are not implemented");
+                waitAndClear();
+                break;
+            }
+        }
+    }
+
+    public static void waitAndClear() {
+        System.out.println("\n Press return key to continue...");
+        try {
+            System.in.read();
+        } catch (Exception e) {
+            // ignore
+        }
+
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
+    public static List<Book> loadBooks(String path) throws Exception {
+        File file = new File(path);
+        FileInputStream stream = new FileInputStream(file);
+        Scanner fileScanner = new Scanner(stream);
+
+        List<Book> books = new ArrayList<>();
+
+        while (fileScanner.hasNextLine()) {
+            String line = fileScanner.nextLine();
+            String[] parts = line.split(",");
+
+            if (parts.length >= 7) {
+
+                String bookId = parts[0].trim();
+                String bookIsbn = parts[1].trim();
+                String title = parts[2].trim();
+                String author = parts[3].trim();
+                String dateOfpublication = parts[4].trim();
+                String genre = parts[5].trim();
+                String ageRating = parts[6].trim();
+
+                Book b = new Book(bookId, bookIsbn, title, author, dateOfpublication, genre, ageRating);
+                books.add(b);
+            }
+        }
+
+        fileScanner.close();
+        stream.close();
+
+        return books;
+    }
+
+    public static Book findBook(List<Book> books, String id) {
+        for (Book b : books) {
+            if (b.bookId.equals(id)) {
+                return b;
+            }
+        }
+        return null;
+    }
+}
+
+// Book class
+class Book {
+    String bookId;
+    String bookIsbn;
+    String title;
+    String author;
+    String dateOfpublication;
+    String genre;
+    String ageRating;
+
+    public Book(String bookId, String bookIsbn, String title, String author,
+                String dateOfpublication, String genre, String ageRating) {
+
+        this.bookId = bookId;
+        this.bookIsbn = bookIsbn;
+        this.title = title;
+        this.author = author;
+        this.dateOfpublication = dateOfpublication;
+        this.genre = genre;
+        this.ageRating = ageRating;
+    }
+}
+
+// Report class
+class ReportBook {
+
+    public static void printSingleBook(Book b) {
+        printHeader();
+        System.out.printf("%-10s %-20s %-30s %-20s %-20s %-20s %-20s%n",
+                b.bookId, b.bookIsbn, b.title, b.author,
+                b.dateOfpublication, b.genre, b.ageRating);
+    }
+
+    public static void printHeader() {
+        System.out.printf("%-10s %-20s %-30s %-20s %-20s %-20s %-20s%n",
+                "ID", "ISBN", "Title", "Author",
+                "Date of publishing", "Genre", "Age Rating");
+        System.out.println(" _______________________________________________________________________________________________________________________");
+    }
+
+    public static void printBooks(List<Book> books) {
+        printHeader();
+        for (Book b : books) {
+            System.out.printf("%-10s %-20s %-30s %-20s %-20s %-20s %-20s%n",
+                    b.bookId, b.bookIsbn, b.title, b.author,
+                    b.dateOfpublication, b.genre, b.ageRating);
+        }
+    }
+}
