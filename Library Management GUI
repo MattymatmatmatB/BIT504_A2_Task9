@@ -1,0 +1,106 @@
+package main;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+
+public class LMSI_GUI extends JFrame {
+
+    private JTextArea displayArea;
+    private JButton submitButton;
+    private JTextField inputField;
+
+    public LMSI_GUI() {
+
+        setTitle("Library Management Database");
+        setSize(700, 600);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // Parchment-style background
+        JPanel panel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+
+                // Light parchment colour
+                g.setColor(new Color(245, 222, 179));
+                g.fillRect(0, 0, getWidth(), getHeight());
+            }
+        };
+        panel.setLayout(new BorderLayout());
+        add(panel);
+
+        // Ink-style text area
+        displayArea = new JTextArea();
+        displayArea.setEditable(false);
+        displayArea.setFont(new Font("Serif", Font.PLAIN, 20));
+        displayArea.setForeground(Color.BLACK);
+        displayArea.setOpaque(false); // Let parchment show through
+
+        JScrollPane scrollPane = new JScrollPane(displayArea);
+        scrollPane.setOpaque(false);
+        scrollPane.getViewport().setOpaque(false);
+
+        panel.add(scrollPane, BorderLayout.CENTER);
+
+        // Input area
+        JPanel inputPanel = new JPanel();
+        inputPanel.setOpaque(false);
+        inputPanel.setLayout(new BorderLayout());
+
+        inputField = new JTextField();
+        inputField.setFont(new Font("Serif", Font.PLAIN, 20));
+
+        submitButton = new JButton("Submit");
+        submitButton.setFont(new Font("Serif", Font.BOLD, 20));
+
+        submitButton.addActionListener((ActionEvent e) -> handleInput());
+
+        inputPanel.add(inputField, BorderLayout.CENTER);
+        inputPanel.add(submitButton, BorderLayout.EAST);
+
+        panel.add(inputPanel, BorderLayout.SOUTH);
+
+        printMenu();
+    }
+
+    private void printMenu() {
+        displayArea.append("\n Library Management Database.\n");
+        displayArea.append(" _______________________________________________________________\n\n");
+        displayArea.append(" 1: Book Management.\n");
+        displayArea.append(" 2: Member Management.\n");
+        displayArea.append(" 3: Loan Management.\n");
+        displayArea.append(" 4: Search.\n");
+        displayArea.append(" 5: Exit.\n\n");
+        displayArea.append("Enter your choice: ");
+    }
+
+    private void handleInput() {
+        String text = inputField.getText().trim();
+        inputField.setText("");
+
+        if (!text.matches("\\d+")) {
+            displayArea.append("\nInvalid input.\n");
+            printMenu();
+            return;
+        }
+
+        int choiceMain = Integer.parseInt(text);
+
+        switch (choiceMain) {
+            case 5:
+                displayArea.append("\nThe program is exiting.\n");
+                System.exit(0);
+                break;
+
+            default:
+                displayArea.append("\nOptions other than exiting are not implemented.\n");
+                displayArea.append("Press submit to continue...\n");
+                break;
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new LMSI_GUI().setVisible(true));
+    }
+}
