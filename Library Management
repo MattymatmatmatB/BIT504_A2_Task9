@@ -59,7 +59,7 @@ public class LibraryManagementMain extends JFrame {
 
         Scanner input = new Scanner(System.in);
         
-        int choiceMain;		// Integers for switches of choices in Database
+        int choiceMain;	
         int choiceBookManagement;
         int choiceMemberManagement;
         int	choiceLoanManagement;
@@ -89,8 +89,8 @@ public class LibraryManagementMain extends JFrame {
                 continue;
             }
 
-            choiceMain = input.nextInt(); //Attempting recursive
-            input.nextLine(); // clear newline
+            choiceMain = input.nextInt(); 
+            input.nextLine(); 
 
             switch (choiceMain) {
 
@@ -111,20 +111,20 @@ public class LibraryManagementMain extends JFrame {
                         continue;
                     }
 
-                    choiceBookManagement = input.nextInt(); // Book Management input
+                    choiceBookManagement = input.nextInt(); 
                     input.nextLine(); // 
 
                     switch (choiceBookManagement) {
                     
                     case 1:
-                    	ReportBook.printBooks(books); // specific for books
+                    	ReportBook.printBooks(books);
                     	waitAndClear();
                     	break;
                     
                 	default:
                 		System.out.println("Invalid input!!!");
                     }	
-                    break; // FIX: prevent falling through into case 2
+                    break; 
 
                 case 2:
                 	System.out.println("\n Member management.");
@@ -146,7 +146,7 @@ public class LibraryManagementMain extends JFrame {
                         continue;
                     }
 
-                    choiceMemberManagement = input.nextInt(); // Member Management input
+                    choiceMemberManagement = input.nextInt(); 
                     input.nextLine();
                     
                     switch (choiceMemberManagement) {
@@ -175,7 +175,7 @@ public class LibraryManagementMain extends JFrame {
                         continue;
                     }
 
-                    choiceLoanManagement = input.nextInt(); // Member Management input
+                    choiceLoanManagement = input.nextInt(); 
                     input.nextLine();
                     
                     switch (choiceLoanManagement) {
@@ -200,8 +200,8 @@ public class LibraryManagementMain extends JFrame {
                         continue;
                     }
 
-                    choiceSearch = input.nextInt(); // Book & Member Search
-                    input.nextLine(); // 
+                    choiceSearch = input.nextInt(); /
+                    input.nextLine(); 
 
                     switch (choiceSearch) {
                     	
@@ -226,7 +226,7 @@ public class LibraryManagementMain extends JFrame {
                         	  waitAndClear();
                         	  break;
                     }
-                    break; // FIX: prevent falling through into case 5 (which exits the program)
+                    break; 
 
                 case 5:
                     System.out.println("\n The program is exiting.\n");
@@ -243,10 +243,10 @@ public class LibraryManagementMain extends JFrame {
         try {
             System.in.read();
         } catch (Exception e) {
-            // ignore
+        
         }
 
-        // Clear screen (ANSI)
+        
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
