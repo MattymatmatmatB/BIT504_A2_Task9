@@ -1,1 +1,42 @@
+import java.io.File;
 
+import java.io.FileInputStream;
+import java.util.Scanner;
+
+
+public class LMSI {
+
+    public static void main(String[] args) throws Exception {
+
+        Scanner input = new Scanner(System.in);
+        int choiceMain;
+
+        while (true) {
+
+            System.out.println("\n Library Management Database.");
+            System.out.println(" __________________________________________________________________________________________________________________");
+
+            System.out.println(" 1: Book Management.");
+            System.out.println(" 2: Member Management.");
+            System.out.println(" 3: Loan Management.");
+            System.out.println(" 4: Search.");
+            System.out.println(" 5: Exit.\n");
+            System.out.print("Enter your choice: ");
+
+            if (!input.hasNextInt()) {
+                System.out.println("Invalid input.");
+                input.next();
+                continue;
+            }
+
+            choiceMain = input.nextInt();
+            input.nextLine();
+
+            switch (choiceMain) {
+                default:
+                    System.out.println("No choice implemented at this stage.");
+                    waitAndClear();
+                    break;
+            }
+        }
+    }
